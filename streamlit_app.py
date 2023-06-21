@@ -51,3 +51,6 @@ streamlit.write('Thanks for adding ', fruit_choicee)
 
 import requests
 fruityvice_responsee = requests.get("https://fruityvice.com/api/fruit/" + fruit_choicee)
+
+my_cur.execute("insert into fruit_load_list values ('from streamlist')");
+
