@@ -49,19 +49,17 @@ streamlit.stop()
 
 #import snowflake.connector
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("select * from fruit_load_list")
-my_data_rows = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
-streamlit.dataframe(my_data_rows)
+#Snowflake-related function
+def get_fruit_load_list():
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("select * from fruit_load_list")
+        return my_cur.fetchall()
 
-#import streamlit
-fruit_choicee = streamlit.text_input('What fruit would you like information about?','jackfruit')
-streamlit.write('Thanks for adding ', fruit_choicee)
+#Add a button to load the fruit
+if streamlit.button('Get Fruit Load List'):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    my_dat_rows = get_fruit_load_list()
+    streamlit.dataframe(my_data_rows)
 
-#import requests
-fruityvice_responsee = requests.get("https://fruityvice.com/api/fruit/" + fruit_choicee)
-
-my_cur.execute("insert into fruit_load_list values ('from streamlist')");
 
